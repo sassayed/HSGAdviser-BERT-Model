@@ -1,0 +1,15 @@
+csv_file = 'HSGAdviser.csv'  # Change this to your CSV file path
+json_file = 'HSGAdviser.json'  # Change this to the desired JSON file path
+csv_to_json(csv_file, json_file)
+# Load data from JSON file
+def load_data_from_json(file_path):
+    with open(file_path, "r") as f:
+        data = json.load(f)
+    contexts = []
+    questions = []
+    answers = []
+    for item in data:
+        contexts.append(item.get("context", ""))
+        questions.append(item.get("question", ""))
+        answers.append(item.get("answer", ""))
+    return contexts, questions, answers
