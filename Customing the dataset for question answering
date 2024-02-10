@@ -1,0 +1,33 @@
+# Defining the input and output fields 
+# During inference, the BERT model processes the tokenized input sequence containing the context and the question and generates predictions for the answer span within the context
+class CustomDataset(Dataset):
+    def __init__(self, contexts, questions, answers, tokenizer, max_seq_length=384):
+        self.tokenizer = tokenizer
+        self.max_seq_length = max_seq_length
+        self.contexts = contexts
+        self.questions = questions
+        self.answers = answers
+
+    def __len__(self):
+        return len(self.contexts)
+
+    def __getitem__(self, idx):
+        context = self.contexts[idx]
+        question = self.questions[idx]
+        answer = self.answers[idx]  # Assuming each answer is a string
+        inputs = self.tokenizer.encode_plus(
+            question,
+            context,
+            add_special_tokens=True,
+            max_length=self.max_seq_length,
+            truncation_strategy="only_second",
+            pad_to_max_length=True,
+            return_attention_mask=True,
+            return_tensors="pt"
+        )
+        return {
+            "input_ids": inputs["input_ids"].flatten(),
+            "attention_mask": inputs["attention_mask"].flatten(),
+            "start_positions": torch.tensor(0, dtype=torch.long),  # Placeholder value, replace with actual start position
+            "end_positions": torch.tensor(0, dtype=torch.long),  # Placeholder value, replace with actual end position
+        }
