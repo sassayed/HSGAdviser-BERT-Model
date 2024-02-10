@@ -1,0 +1,1 @@
+We integrated into our HSGAdviser chatbot one of the pre-trained model from HuggingFace platform called a BERT-base-uncased model, which it’s variant of the BERT. IT reveals high accuracy score in understanding  the language, by capturing contextual information from input text.
